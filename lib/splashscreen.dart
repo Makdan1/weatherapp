@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,30 +10,29 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  var _visible = true;
+  // Parameters initialized
 
+  var _visible = true;
   AnimationController animationController;
   Animation<double> animation;
-  String HOME='/Home';
-  String HOME_SCREEN ='/Login';
-  //String HOME_SCREEN ='/LoginPage';
-
+  String HOME = '/Home';
+  String HOME_SCREEN = '/Login';
 
   startTime() async {
     var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
 
-  void navigationPage() async{
+  void navigationPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var id = prefs.getString('id');
 
     print(id);
 
-    id == null?
-    Navigator.of(context).pushReplacementNamed(HOME_SCREEN):
-    Navigator.of(context).pushReplacementNamed(HOME);
+    id == null
+        ? Navigator.of(context).pushReplacementNamed(HOME_SCREEN)
+        : Navigator.of(context).pushReplacementNamed(HOME);
   }
 
   @override
@@ -43,7 +41,7 @@ class SplashScreenState extends State<SplashScreen>
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 2));
     animation =
-    new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+        new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -61,20 +59,19 @@ class SplashScreenState extends State<SplashScreen>
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-
           new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-
-  Text('Weather App', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),),
-
-      ]
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Weather App',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+              ]),
         ],
       ),
     );
   }
 }
-
-
-

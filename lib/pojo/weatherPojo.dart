@@ -1,4 +1,4 @@
-class weather {
+class Weather {
 
   double  minTemp;
   double  maxTemp;
@@ -8,7 +8,7 @@ class weather {
   int humidity;
 
 
-  weather({
+  Weather({
     this.minTemp,
     this.maxTemp,
     this.windSpeed,
@@ -18,7 +18,7 @@ class weather {
 
   });
 
-  weather.fromJson(Map<String, dynamic> doc):
+  Weather.fromJson(Map<String, dynamic> doc):
         minTemp =  doc['temp']['min'],
         maxTemp =  doc['temp']['max'],
         windSpeed =  doc['wind_speed'],

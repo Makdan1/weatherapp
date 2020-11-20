@@ -1,8 +1,6 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 
 class ResetPasswordPage extends StatefulWidget {
   @override
@@ -15,18 +13,18 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final TextEditingController _emailController = new TextEditingController();
   resetPassword() async {
     if (_emailController.text.isNotEmpty) {
-
       try {
         await _firebaseAuth.sendPasswordResetEmail(
             email: _emailController.text);
         Fluttertoast.showToast(msg: 'Reset link have been sent to your email');
         Navigator.pop(context);
-      }catch(e){
+      } catch (e) {
         Fluttertoast.showToast(msg: e.toString());
       }
     } else
       Fluttertoast.showToast(msg: 'Email address can\'t be empty');
   }
+
   @override
   Widget build(BuildContext context) {
     final appBar = Padding(
@@ -57,17 +55,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
 
     final emailField = TextFormField(
-      validator: (input) {
-        if(input.isEmpty){
-          return 'Field can\'t be empty';
-        }
-      },
+
       decoration: InputDecoration(
         labelText: 'Email Address',
         labelStyle: TextStyle(color: Colors.white),
         prefixIcon: Icon(
-            Icons.mail,
-            color: Colors.white,
+          Icons.mail,
+          color: Colors.white,
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -104,9 +98,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-
           resetPassword();
-
         },
         color: Colors.white,
         shape: new RoundedRectangleBorder(
@@ -148,6 +140,3 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 }
-
-
-

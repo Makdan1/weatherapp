@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +11,7 @@ class Login extends StatefulWidget {
 }
 
 class _AlmostThere extends State<Login> {
+  // Parameters initialized
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,8 +25,6 @@ class _AlmostThere extends State<Login> {
   String token;
   SharedPreferences prefs;
   String error;
-
-
 
   _showErrorDialog(
       {String message = "Both username and password fields are required."}) {
@@ -51,10 +49,8 @@ class _AlmostThere extends State<Login> {
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -64,7 +60,6 @@ class _AlmostThere extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-
               SizedBox(
                 height: 60,
               ),
@@ -78,7 +73,6 @@ class _AlmostThere extends State<Login> {
                       fontSize: 25),
                 ),
               ),
-
               Container(
                 padding: EdgeInsets.all(20),
                 child: TextFormField(
@@ -130,40 +124,32 @@ class _AlmostThere extends State<Login> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(20),
-                child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-
-        InkWell(
-        onTap: () {
-      Navigator.pushNamed(context, "/ResetPasswordPage");
-    },
-    child:
-                        Text(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/ResetPasswordPage");
+                        },
+                        child: Text(
                           'Forgot Password?',
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
                               fontSize: 12),
                         ),
-        )
-                      ],
-                    )),
-
-
-
+                      )
+                    ],
+                  )),
             ]),
-
       ]),
-
       bottomNavigationBar: Container(
         //color:appTheme,
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-
             Container(
               color: Colors.black,
               width: deviceWidth / 2,
@@ -171,7 +157,6 @@ class _AlmostThere extends State<Login> {
               child: InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, "/RegisterPage");
-
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,12 +172,9 @@ class _AlmostThere extends State<Login> {
                               fontSize: 12),
                         ),
                       ),
-
                     ],
                   )),
             ),
-
-
             Container(
               color: Colors.blue,
               width: deviceWidth / 2,
@@ -243,11 +225,9 @@ class _AlmostThere extends State<Login> {
 //
         await prefs.setString('id', user.uid);
 
-
         return Navigator.of(context).pushReplacementNamed('/Home');
         // Fluttertoast.showToast(msg: 'You are yet to verify your email');
       } catch (e) {
-
         if (Platform.isAndroid) {
           switch (e.message) {
             case 'There is no user record corresponding to this identifier. The user may have been deleted.':
