@@ -26,7 +26,18 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    	<string>Allows application to be able to use location</string>
+    	<key>NSLocationAlwaysUsageDescription</key>
+    	<string>Allows application to be able to use location</string>
+    	<key>NSLocationUsageDescription</key>
+    	<string>Allows application to be able to use location</string>
+    	<key>NSLocationWhenInUseUsageDescription</key>
+    	<string>Allows application to be able to use location</string>
+    	<key>NSMotionUsageDescription</key>
+    	<string>Allow to detect location change</string>
 	<key>UISupportedInterfaceOrientations</key>
+
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

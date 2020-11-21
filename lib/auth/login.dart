@@ -16,6 +16,7 @@ class _AlmostThere extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool passwordVisible;
+  bool _isLoading = false;
   // ignore: must_call_super
   void initState() {
     // TODO: implement initState
@@ -189,7 +190,14 @@ class _AlmostThere extends State<Login> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.all(20),
-                        child: Text(
+                        child:  _isLoading
+                            ? Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          ),
+                        )
+                            : Text(
                           'SIGN IN ',
                           style: TextStyle(
                               color: Colors.white,
@@ -215,6 +223,9 @@ class _AlmostThere extends State<Login> {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: 'Fields can\'t be empty');
     } else {
+      setState(() {
+        _isLoading = true;
+      });
       try {
         FirebaseUser user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(
@@ -226,8 +237,11 @@ class _AlmostThere extends State<Login> {
         await prefs.setString('id', user.uid);
 
         return Navigator.of(context).pushReplacementNamed('/Home');
-        // Fluttertoast.showToast(msg: 'You are yet to verify your email');
+
       } catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
         if (Platform.isAndroid) {
           switch (e.message) {
             case 'There is no user record corresponding to this identifier. The user may have been deleted.':
@@ -249,6 +263,9 @@ class _AlmostThere extends State<Login> {
               print('${e.message}');
           }
         } else if (Platform.isIOS) {
+          setState(() {
+            _isLoading = false;
+          });
           switch (e.message) {
             case 'There is no user record corresponding to this identifier. The user may have been deleted.':
               //errorType = authProblems.UserNotFound;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,7 @@ class HomeState extends State<FullForecast> {
   String lng;
   var location = Location();
   SharedPreferences prefs;
-  List data;
+  var data;
   Map<String, dynamic> responseData;
   double minTemp;
   double maxTemp;
@@ -53,21 +54,21 @@ class HomeState extends State<FullForecast> {
   // this fetches the weather details API
   _fetchWeather() async {
     final response = await http.get(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lng&dt=$date&appid=40bb52e19ff5ceb29886d814e341cb8c',
+      'https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=$lat&lon=$lng&dt=$date&appid=40bb52e19ff5ceb29886d814e341cb8c',
     );
 
     if (response.statusCode == 200) {
       responseData = json.decode(response.body);
       setState(() {
-        data = responseData['daily'];
+        data = responseData['current'];
         print(data);
-        minTemp = data[0]['temp']['min'];
+        minTemp = data['temp'];
         print(minTemp);
-        maxTemp = data[0]['temp']['max'];
-        windSpeed = data[0]['wind_speed'];
-        day = data[0]['dt'];
-        cloudPercentage = data[0]['clouds'];
-        humidity = data[0]['humidity'];
+        maxTemp = data['temp'];
+        windSpeed = data['wind_speed'];
+        day = data['dt'];
+        cloudPercentage = data['clouds'];
+        humidity = data['humidity'];
       });
     } else {
       var sa = response.body;
@@ -75,7 +76,7 @@ class HomeState extends State<FullForecast> {
       var er = responseData['message'];
       print('error$er');
       print(sa);
-      throw Exception('Failed to load internet');
+      Fluttertoast.showToast(msg: '$er');
     }
   }
 
@@ -83,9 +84,9 @@ class HomeState extends State<FullForecast> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(2),
         child: ListView(children: <Widget>[
-
+SizedBox(height: 20,),
           Text(
             'A day weather forecast',
             style: TextStyle(
@@ -94,9 +95,16 @@ class HomeState extends State<FullForecast> {
               fontWeight: FontWeight.bold
             ),
           ),
-          Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
+          SizedBox(height: 20,),
+              Card(
+                elevation: 3,
+                child:
+                Container(
+                    padding: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(10),
+
+                    child:
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -109,12 +117,12 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        '$minTemp',
+                        minTemp != null?  '$minTemp':'',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18.0,
@@ -133,12 +141,12 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        '$maxTemp',
+                        maxTemp != null? '$maxTemp':'',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18.0,
@@ -157,12 +165,12 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        '$windSpeed',
+                        windSpeed  != null? '$windSpeed':'',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18.0,
@@ -181,7 +189,7 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
@@ -207,12 +215,12 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        '$minTemp',
+                        cloudPercentage != null? '$cloudPercentage%': '',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18.0,
@@ -231,12 +239,12 @@ class HomeState extends State<FullForecast> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
-                          color: Colors.black,
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        '$humidity',
+                        humidity != null?  '$humidity': '',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18.0,
@@ -247,7 +255,9 @@ class HomeState extends State<FullForecast> {
                   ),
                 ],
               )),
+          ),
         ]),
+
       ),
     );
   }

@@ -74,6 +74,7 @@ class HomeState extends State<Forecast> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.teal,
       body: Container(
         padding: EdgeInsets.all(20),
         child: ListView(
@@ -82,7 +83,7 @@ class HomeState extends State<Forecast> {
             Text(
               '7 days weather forecast',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold
               ),
@@ -171,7 +172,7 @@ class HomeState extends State<Forecast> {
                             ));
 
                       return Container(
-                        height: deviceHeight / 1.25,
+                        height: deviceHeight / 1.1,
                         child: ListView(
                           //scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -181,9 +182,15 @@ class HomeState extends State<Forecast> {
                                   onTap: () {
                                     gotoFull(context, date: feed.day);
                                   },
-                                  child: Container(
-                                      padding: EdgeInsets.all(20),
-                                      child: Column(
+                                  child:
+                        Card(
+                          elevation: 3,
+                          child:  Container(
+                                      padding: EdgeInsets.all(5),
+                                      margin: EdgeInsets.all(10),
+
+                                      child:
+                                      Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
@@ -200,7 +207,7 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
@@ -214,7 +221,7 @@ class HomeState extends State<Forecast> {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(color: Colors.purple,),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -226,7 +233,7 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
@@ -240,7 +247,7 @@ class HomeState extends State<Forecast> {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(color: Colors.purple,),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -252,7 +259,7 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
@@ -266,7 +273,7 @@ class HomeState extends State<Forecast> {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(color: Colors.purple,),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -278,7 +285,7 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
@@ -292,7 +299,7 @@ class HomeState extends State<Forecast> {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(color: Colors.purple,),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -304,12 +311,12 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
                                               Text(
-                                                '${feed.cloudPercentage}',
+                                                '${feed.cloudPercentage}%',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w800,
                                                   fontSize: 18.0,
@@ -318,7 +325,7 @@ class HomeState extends State<Forecast> {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(color: Colors.purple,),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -330,7 +337,7 @@ class HomeState extends State<Forecast> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15.0,
-                                                  color: Colors.black,
+                                                  color: Colors.redAccent,
                                                 ),
                                               ),
                                               SizedBox(width: 20,),
@@ -348,6 +355,7 @@ class HomeState extends State<Forecast> {
                                       )),
                                 ),
                               )
+                          )
                               .toList(),
                         ),
                       );
