@@ -70,14 +70,24 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Stack( // <-- STACK AS THE SCAFFOLD PARENT
+        children: [
+    Container(
+    decoration: BoxDecoration(
+    image: DecorationImage(
+        image: AssetImage("images/thunder.jpeg"), // <-- BACKGROUND IMAGE
+    fit: BoxFit.cover,
+    ),
+    ),
+    ),Scaffold(
+            backgroundColor: Colors.transparent,
       body: Container(
         padding: EdgeInsets.all(20),
         child: ListView(children: <Widget>[
           Text(
             'Tap the fetch location button to get your coordinates',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 15,
             ),
           ),
@@ -87,7 +97,7 @@ class HomeState extends State<Home> {
           Text(
             'Latitude',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 15,
             ),
           ),
@@ -97,19 +107,19 @@ class HomeState extends State<Home> {
               controller: latitudeController,
               decoration: InputDecoration(
                   hintStyle: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   labelStyle: TextStyle(color: Colors.grey, fontSize: 12),
                  ),
               keyboardType: TextInputType.emailAddress,
-              style: TextStyle(color: Colors.black),
-              cursorColor: Colors.black,
+              style: TextStyle(color: Colors.white),
+              cursorColor: Colors.white,
             ),
           ),
           Text(
             'Longitude',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 15,
             ),
           ),
@@ -119,13 +129,13 @@ class HomeState extends State<Home> {
               controller: longitudeController,
               decoration: InputDecoration(
                   hintStyle: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   labelStyle: TextStyle(color: Colors.grey, fontSize: 12),
                  ),
               keyboardType: TextInputType.emailAddress,
-              style: TextStyle(color: Colors.black),
-              cursorColor: Colors.black,
+              style: TextStyle(color: Colors.white),
+              cursorColor: Colors.white,
             ),
           ),
           Container(
@@ -225,6 +235,8 @@ class HomeState extends State<Home> {
           ),
         ),
       ),
+    )
+    ]
     );
   }
 }

@@ -62,12 +62,10 @@ class SplashScreenState extends State<SplashScreen>
           new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'Weather App',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                new Image.asset(
+                  'images/weatherIcon.png',
+                  width: animation.value * 250,
+                  height: animation.value * 250,
                 ),
               ]),
         ],

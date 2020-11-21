@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
 import 'package:weatherapp/forecast/fullForecast.dart';
-import 'package:weatherapp/pojo/weatherPojo.dart';
+import 'package:weatherapp/models/weatherPojo.dart';
+
 
 class Forecast extends StatefulWidget {
   @override
@@ -39,13 +40,12 @@ class HomeState extends State<Forecast> {
       lng = prefs.getString('lng');
       print(lat);
       print(lng);
-
-      WeatherState = _fetchWeather();
+  _fetchWeather();
     });
   }
 
   // this fetches the Weather details API
-  Future<List<Weather>> WeatherState;
+
   Future<List<Weather>> _fetchWeather() async {
     final response = await http.get(
       'https://api.openWeathermap.org/data/2.5/onecall?lat=$lat&lon=$lng&exclude=alerts&appid=40bb52e19ff5ceb29886d814e341cb8c',
@@ -74,7 +74,7 @@ class HomeState extends State<Forecast> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.teal,
+      backgroundColor: Colors.blueAccent,
       body: Container(
         padding: EdgeInsets.all(20),
         child: ListView(
@@ -95,7 +95,7 @@ class HomeState extends State<Forecast> {
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                 child: FutureBuilder<List<Weather>>(
-                    future: WeatherState,
+                    future: _fetchWeather(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return Container(
@@ -172,7 +172,7 @@ class HomeState extends State<Forecast> {
                             ));
 
                       return Container(
-                        height: deviceHeight / 1.1,
+                        height: deviceHeight/1.2,
                         child: ListView(
                           //scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -180,7 +180,11 @@ class HomeState extends State<Forecast> {
                               .map(
                                 (feed) => InkWell(
                                   onTap: () {
-                                    gotoFull(context, date: feed.day);
+                                    gotoFull(context, date: feed.day,minTemp:  feed.minTemp,
+                                      maxTemp:  feed.maxTemp,
+                                      windSpeed: feed.windSpeed,
+                                      cloudPercentage: feed.cloudPercentage,
+                                      humidity: feed.humidity,);
                                   },
                                   child:
                         Card(
@@ -196,47 +200,56 @@ class HomeState extends State<Forecast> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              Text(
-                                                'Minimum Temperature',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15.0,
-                                                  color: Colors.redAccent,
-                                                ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'Min Temp.',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 15.0,
+                                                      color: Colors.redAccent,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10,),
+                                                  Text(
+                                                    '${feed.minTemp}',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w800,
+                                                      fontSize: 18.0,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
+
                                               SizedBox(width: 20,),
-                                              Text(
-                                                '${feed.minTemp}',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 18.0,
-                                                  color: Colors.black,
-                                                ),
+                                              Container(
+                                                height:100,
+                                                width: 100,
+                                                padding: EdgeInsets.all(5),
+                                                margin: EdgeInsets.all(10),
+
+                                                child:
+                                                Image(image:  AssetImage("images/weatherList.png"),),
                                               ),
-                                            ],
-                                          ),
-                                          Divider(color: Colors.purple,),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Maximum Temperature',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15.0,
-                                                  color: Colors.redAccent,
-                                                ),
-                                              ),
-                                              SizedBox(width: 20,),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'Min Temp.',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 15.0,
+                                                      color: Colors.redAccent,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10,),
                                               Text(
                                                 '${feed.maxTemp}',
                                                 style: TextStyle(
@@ -245,6 +258,8 @@ class HomeState extends State<Forecast> {
                                                   color: Colors.black,
                                                 ),
                                               ),
+]
+                                              )
                                             ],
                                           ),
                                           Divider(color: Colors.purple,),
@@ -252,8 +267,12 @@ class HomeState extends State<Forecast> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              Icon(
+                                                  Icons.run_circle_outlined
+                                              ),
+                                              SizedBox(width: 20,),
                                               Text(
                                                 'Wind Speed',
                                                 style: TextStyle(
@@ -266,7 +285,7 @@ class HomeState extends State<Forecast> {
                                               Text(
                                                 '${feed.windSpeed}',
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
+                                                  fontWeight: FontWeight.w600,
                                                   fontSize: 18.0,
                                                   color: Colors.black,
                                                 ),
@@ -278,8 +297,12 @@ class HomeState extends State<Forecast> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              Icon(
+                                                  Icons.calendar_today_outlined
+                                              ),
+                                              SizedBox(width: 20,),
                                               Text(
                                                 'Date',
                                                 style: TextStyle(
@@ -292,7 +315,7 @@ class HomeState extends State<Forecast> {
                                               Text(
                                                 '${DateTime.fromMillisecondsSinceEpoch(feed.day * 1000).day}/${DateTime.fromMillisecondsSinceEpoch(feed.day * 1000).month}/${DateTime.fromMillisecondsSinceEpoch(feed.day * 1000).year}',
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
+                                                  fontWeight: FontWeight.w600,
                                                   fontSize: 18.0,
                                                   color: Colors.black,
                                                 ),
@@ -304,8 +327,12 @@ class HomeState extends State<Forecast> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              Icon(
+                                                  Icons.cloud_circle_rounded
+                                              ),
+                                              SizedBox(width: 20,),
                                               Text(
                                                 'Cloud percentage',
                                                 style: TextStyle(
@@ -330,8 +357,12 @@ class HomeState extends State<Forecast> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              Icon(
+                                                  Icons.ten_mp
+                                              ),
+                                              SizedBox(width: 20,),
                                               Text(
                                                 'Humidity',
                                                 style: TextStyle(
@@ -368,13 +399,22 @@ class HomeState extends State<Forecast> {
     );
   }
 // this takes the date of the selected item to the next page
-  gotoFull(BuildContext context, {int date}) {
+  gotoFull(BuildContext context, {int date,   double  minTemp,
+  double  maxTemp,
+  var windSpeed,
+  int day,
+  int cloudPercentage,
+  int humidity,}) {
     Navigator.push(
         context,
         PageRouteBuilder(
             transitionDuration: Duration(milliseconds: 500),
             pageBuilder: (_, __, ___) => FullForecast(
-                  date: date,
+                  date: date,minTemp:  minTemp,
+              maxTemp:  maxTemp,
+              windSpeed: windSpeed,
+              cloudPercentage: cloudPercentage,
+              humidity: humidity,
                 )));
   }
 }

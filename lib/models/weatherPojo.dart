@@ -2,7 +2,7 @@ class Weather {
 
   double  minTemp;
   double  maxTemp;
-  double windSpeed;
+  var windSpeed;
   int day;
   int cloudPercentage;
   int humidity;
